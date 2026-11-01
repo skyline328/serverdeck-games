@@ -1,0 +1,70 @@
+# Terraria ohne Mods – offizieller Dedicated Server direkt von terraria.org.
+# Zeigt: Download + eigenes Skript, Laufzeit „base“, Eingaben als Umgebungsvariablen.
+id: terraria-vanilla
+version: 1
+name: Terraria (Vanilla)
+short: TV
+hue: 140
+description: Offizieller Dedicated Server von terraria.org, ohne Mods. Die Welt entsteht beim ersten Start.
+beta: true
+
+runtime: base
+install:
+  script: |
+    sd-download "https://terraria.org/api/download/pc-dedicated-server/terraria-server-{{var.VERSION}}.zip" --file server.zip --dir /tmp/terraria
+    cp -a /tmp/terraria/*/Linux/. .
+    chmod +x TerrariaServer.bin.x86_64
+    mkdir -p Worlds
+start: >-
+  ./TerrariaServer.bin.x86_64 -port {{port.game}} -maxplayers {{var.MAXPLAYERS}}
+  -world "$HOME/Worlds/$WORLD.wld" -worldname "$WORLD" -autocreate {{var.SIZE}} -password "$PASSWORD"
+stopCommand: exit
+stopTimeoutSec: 30
+doneRegex: 'Server started'
+backup:
+  before: ["save"]
+  waitSec: 3
+
+resources:
+  minMemoryMb: 1024
+  defaultMemoryMb: 2048
+  defaultCpuPercent: 100
+
+ports:
+  - name: game
+    label: Spiel-Port
+    container: 7777
+    protocol: tcp
+    default: 7777
+    matchHost: true
+
+playersVariable: MAXPLAYERS
+variables:
+  - key: VERSION
+    label: Version
+    type: select
+    default: "1449"
+    options:
+      - { value: "1449", label: "1.4.4.9" }
+  - key: WORLD
+    label: Weltname
+    type: text
+    default: serverdeck
+  - key: SIZE
+    label: Weltgröße (beim Erzeugen)
+    type: select
+    default: "2"
+    options:
+      - { value: "1", label: Klein }
+      - { value: "2", label: Mittel }
+      - { value: "3", label: Groß }
+  - key: MAXPLAYERS
+    label: Max. Spieler
+    type: number
+    default: 8
+    min: 1
+    max: 255
+  - key: PASSWORD
+    label: Passwort zum Beitreten (leer = ohne)
+    type: text
+    secret: true
