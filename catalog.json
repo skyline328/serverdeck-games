@@ -7,13 +7,13 @@
       "name": "7 Days to Die",
       "short": "7D",
       "hue": 15,
-      "description": "Dedizierter Server über SteamCMD (rund 15 GB). Einstellungen in serverdeck.xml im Dateimanager.",
+      "description": "Dedizierter Server über SteamCMD (rund 15 GB). Einstellungen im Bereich „Konfiguration“ des Servers.",
       "beta": true,
-      "version": "1",
+      "version": "2",
       "runtime": "base",
       "install": "steamcmd",
       "file": "games/seven-days-to-die.yaml",
-      "sha256": "274ef7d722da99f05e1408bc102c96dd79b77f4005935e579dc9dccb08d86188"
+      "sha256": "cd639cf2ee16c57ea296a249e57cb136839872828d3b93a5bae9e71cce6e71b9"
     },
     {
       "id": "terraria-vanilla",
