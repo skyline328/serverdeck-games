@@ -1,0 +1,32 @@
+{
+  "format": 1,
+  "name": "Serverdeck-Spiele",
+  "games": [
+    {
+      "id": "seven-days-to-die",
+      "name": "7 Days to Die",
+      "short": "7D",
+      "hue": 15,
+      "description": "Dedizierter Server über SteamCMD (rund 15 GB). Einstellungen in serverdeck.xml im Dateimanager.",
+      "beta": true,
+      "version": "1",
+      "runtime": "base",
+      "install": "steamcmd",
+      "file": "games/seven-days-to-die.yaml",
+      "sha256": "274ef7d722da99f05e1408bc102c96dd79b77f4005935e579dc9dccb08d86188"
+    },
+    {
+      "id": "terraria-vanilla",
+      "name": "Terraria (Vanilla)",
+      "short": "TV",
+      "hue": 140,
+      "description": "Offizieller Dedicated Server von terraria.org, ohne Mods. Die Welt entsteht beim ersten Start.",
+      "beta": true,
+      "version": "1",
+      "runtime": "base",
+      "install": "script",
+      "file": "games/terraria-vanilla.yaml",
+      "sha256": "07c1d99439cf9e3f56dca2bbfd34ee796fd867620b3b133ccc7010b3a3499ffd"
+    }
+  ]
+}

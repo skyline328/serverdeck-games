@@ -1,0 +1,62 @@
+# 7 Days to Die – Dedicated Server über SteamCMD.
+# Zeigt: SteamCMD mit Beta-Zweig, eigene Konfigurationsdatei, die Updates nicht überschreiben.
+id: seven-days-to-die
+version: 1
+name: 7 Days to Die
+short: 7D
+hue: 15
+description: Dedizierter Server über SteamCMD (rund 15 GB). Einstellungen in serverdeck.xml im Dateimanager.
+beta: true
+
+runtime: base
+install:
+  steamcmd:
+    app: 294420
+    beta: "{{var.BRANCH}}"
+  script: |
+    # Eigene Konfiguration einmalig anlegen – Updates überschreiben nur serverconfig.xml
+    [ -f serverdeck.xml ] || cp serverconfig.xml serverdeck.xml
+# Port aus Serverdeck in die Konfiguration übernehmen, dann den Server starten
+start: >-
+  sed -i -E 's|(name="ServerPort"[[:space:]]+value=")[0-9]+|\1{{port.game}}|' serverdeck.xml &&
+  exec env LD_LIBRARY_PATH=. ./7DaysToDieServer.x86_64 -configfile=serverdeck.xml -logfile /dev/stdout
+  -quit -batchmode -nographics -dedicated
+stopTimeoutSec: 60
+doneRegex: 'GameServer.LogOn successful'
+query:
+  type: a2s
+  port: game
+
+resources:
+  minMemoryMb: 8192
+  defaultMemoryMb: 12288
+  defaultCpuPercent: 400
+
+ports:
+  - name: game
+    label: Spiel-Port
+    container: 26900
+    protocol: tcp+udp
+    default: 26900
+    matchHost: true
+  - name: game2
+    label: Spiel-Port + 1
+    container: 26901
+    protocol: udp
+    default: 26901
+    matchHost: true
+  - name: game3
+    label: Spiel-Port + 2
+    container: 26902
+    protocol: udp
+    default: 26902
+    matchHost: true
+
+variables:
+  - key: BRANCH
+    label: Version
+    type: select
+    default: public
+    options:
+      - { value: public, label: Stabil }
+      - { value: latest_experimental, label: Experimentell }
