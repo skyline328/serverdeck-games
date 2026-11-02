@@ -44,6 +44,16 @@ ports:
   - { name: game, label: Spiel-Port, container: 7777, protocol: udp, default: 7777, matchHost: true }
 variables:
   - { key: SERVER_NAME, label: Servername, type: text, default: Mein Server }
+
+# Optional: Config-Dateien für den Bereich „Konfiguration“ (ab Serverdeck 0.7).
+# Nicht beschriebene Einträge erscheinen automatisch, true/false als Kippschalter.
+configs:
+  - file: config/server.ini     # relativ zum Server-Verzeichnis, {{var.X}} erlaubt
+    label: Server-Einstellungen
+    fields:
+      PvP: { label: PvP, group: Spiel }
+      Hardcore: { type: boolean, trueValue: 1, falseValue: 0 }
+      Port: { readOnly: Wird von Serverdeck gesetzt. }
 ```
 
 Regeln, die die Prüfung durchsetzt:

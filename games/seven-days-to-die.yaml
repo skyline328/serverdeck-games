@@ -1,11 +1,11 @@
 # 7 Days to Die – Dedicated Server über SteamCMD.
 # Zeigt: SteamCMD mit Beta-Zweig, eigene Konfigurationsdatei, die Updates nicht überschreiben.
 id: seven-days-to-die
-version: 1
+version: 2
 name: 7 Days to Die
 short: 7D
 hue: 15
-description: Dedizierter Server über SteamCMD (rund 15 GB). Einstellungen in serverdeck.xml im Dateimanager.
+description: Dedizierter Server über SteamCMD (rund 15 GB). Einstellungen im Bereich „Konfiguration“ des Servers.
 beta: true
 
 runtime: base
@@ -60,3 +60,55 @@ variables:
     options:
       - { value: public, label: Stabil }
       - { value: latest_experimental, label: Experimentell }
+
+# Bereich „Konfiguration“ (ab Serverdeck 0.7). Weitere Einträge der Datei erscheinen automatisch,
+# mit der Erklärung aus dem Kommentar in der Datei.
+configs:
+  - file: serverdeck.xml
+    label: Server-Einstellungen
+    help: Entsteht bei der ersten Installation. Änderungen wirken nach einem Neustart.
+    fields:
+      ServerName: { label: Name in der Serverliste, group: Allgemein }
+      ServerDescription: { label: Beschreibung, group: Allgemein }
+      ServerWebsiteURL: { label: Webseite, group: Allgemein }
+      ServerPassword: { label: Passwort zum Beitreten, type: secret, help: Leer = ohne Passwort., group: Zugang }
+      ServerMaxPlayerCount: { label: Max. Spieler, group: Allgemein, min: 1 }
+      ServerVisibility:
+        label: Sichtbarkeit
+        group: Zugang
+        type: select
+        options:
+          - { value: "2", label: Öffentlich }
+          - { value: "1", label: Nur Freunde }
+          - { value: "0", label: Nicht gelistet }
+      EACEnabled: { label: EasyAntiCheat, group: Zugang }
+      GameWorld: { label: Welt, help: "Navezgane oder RWG (zufällig erzeugt). Neue Welt nur bei neuem Spielnamen.", group: Welt }
+      WorldGenSeed: { label: Seed (nur RWG), group: Welt }
+      WorldGenSize: { label: Weltgröße (nur RWG), help: z. B. 6144, 8192 oder 10240., group: Welt }
+      GameName: { label: Spielname (Spielstand), help: Ein neuer Name startet ein neues Spiel., group: Welt }
+      GameDifficulty:
+        label: Schwierigkeit
+        group: Spiel
+        type: select
+        options:
+          - { value: "0", label: Scavenger (leichteste) }
+          - { value: "1", label: Adventurer }
+          - { value: "2", label: Nomad }
+          - { value: "3", label: Warrior }
+          - { value: "4", label: Survivalist }
+          - { value: "5", label: Insane (schwerste) }
+      DayNightLength: { label: Länge eines Tages (Minuten), group: Spiel, min: 10 }
+      DayLightLength: { label: Davon Tageslicht (Stunden im Spiel), group: Spiel, min: 0, max: 24 }
+      BloodMoonFrequency: { label: Blutmond alle … Tage, help: 0 = nie., group: Spiel, min: 0 }
+      LootAbundance: { label: Beute-Menge (%), group: Spiel }
+      LootRespawnDays: { label: Beute erneuert nach … Tagen, group: Spiel }
+      PlayerKillingMode:
+        label: PvP
+        group: Spiel
+        type: select
+        options:
+          - { value: "0", label: Kein PvP }
+          - { value: "1", label: Nur Verbündete }
+          - { value: "2", label: Nur Fremde }
+          - { value: "3", label: Alle }
+      ServerPort: { readOnly: "Der Port wird von Serverdeck bei jedem Start eingetragen." }
